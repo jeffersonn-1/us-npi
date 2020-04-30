@@ -24,9 +24,13 @@
       (db/insert-multi! :organizations (map db/model->row orgs)))
     (f)))
 
+(defn benchmark [f]
+  (time (f)))
+
 (use-fixtures
   :each
-  fix-load-sample)
+  fix-load-sample
+  benchmark)
 
 (deftest test-pract-api
   (testing "Single practitioner"
