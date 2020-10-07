@@ -204,9 +204,12 @@
   (log/info data)
   (if (empty? data)
     (str "Error: search requires atleast one parameter.")
-    (let [params (assoc data
-                        :speciality (search-t-codes (:speciality data))
-                        :taxonomies (re-seq #"[^,]+" (:taxonomies data)))
+    (let [params (if (:taxonomies data)
+                   (assoc data
+                          :speciality (search-t-codes (:speciality data))
+                          :taxonomies (re-seq #"[^,]+" (:taxonomies data)))
+                   (assoc data
+                          :speciality (search-t-codes (:speciality data))))
           ]
         (log/info params)
         (if (and (not (empty? (select-keys params [:first-name :last-name])) )
